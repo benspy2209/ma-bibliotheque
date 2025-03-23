@@ -97,11 +97,12 @@ export default function Library() {
   };
 
   const handleExportLibrary = () => {
+    // Modifié pour exporter TOUS les livres, pas seulement les livres filtrés
     const result = exportLibraryToJson(books);
     
     if (result.success) {
       toast({
-        description: "Export de votre bibliothèque réussi!",
+        description: `Export réussi de ${books.length} livres!`,
       });
     } else {
       toast({
@@ -127,7 +128,7 @@ export default function Library() {
                 title="Exporter ma bibliothèque"
               >
                 <Download className="h-4 w-4" />
-                <span className="hidden sm:inline">Exporter</span>
+                <span className="hidden sm:inline">Exporter ({books.length})</span>
               </Button>
               <SortMenu sortBy={sortBy} onSortChange={setSortBy} />
               <ViewToggle viewMode={viewMode} onToggle={toggleView} />

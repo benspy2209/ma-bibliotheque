@@ -6,6 +6,16 @@ import { Book } from '@/types/book';
  */
 export function exportLibraryToJson(books: Book[], fileName: string = 'ma-bibliotheque.json') {
   try {
+    if (!books || books.length === 0) {
+      console.warn('Aucun livre à exporter');
+      return { 
+        success: false,
+        error: 'Aucun livre à exporter'
+      };
+    }
+    
+    console.log(`Tentative d'export de ${books.length} livres`);
+    
     // Create a blob with the formatted JSON data
     const booksJson = JSON.stringify(books, null, 2);
     const blob = new Blob([booksJson], { type: 'application/json' });
@@ -26,7 +36,7 @@ export function exportLibraryToJson(books: Book[], fileName: string = 'ma-biblio
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
     
-    return { success: true };
+    return { success: true, count: books.length };
   } catch (error) {
     console.error('Erreur lors de l\'export de la bibliothèque:', error);
     return { 
