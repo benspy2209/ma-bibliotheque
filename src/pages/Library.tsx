@@ -13,7 +13,9 @@ import { useQuery } from '@tanstack/react-query';
 import { BookSections } from '@/components/library/BookSections';
 import { AuthorFilter } from '@/components/library/AuthorFilter';
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { exportLibraryToJson } from '@/lib/exportUtils';
 
 export default function Library() {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -94,6 +96,21 @@ export default function Library() {
     setToBuyFilter(value);
   };
 
+  const handleExportLibrary = () => {
+    const result = exportLibraryToJson(books);
+    
+    if (result.success) {
+      toast({
+        description: "Export de votre bibliothèque réussi!",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        description: `Erreur lors de l'export: ${result.error || 'Problème inconnu'}`,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen fade-in">
       <NavBar />
@@ -102,6 +119,16 @@ export default function Library() {
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">Ma Bibliothèque</h1>
             <div className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="flex items-center gap-1"
+                onClick={handleExportLibrary}
+                title="Exporter ma bibliothèque"
+              >
+                <Download className="h-4 w-4" />
+                <span className="hidden sm:inline">Exporter</span>
+              </Button>
               <SortMenu sortBy={sortBy} onSortChange={setSortBy} />
               <ViewToggle viewMode={viewMode} onToggle={toggleView} />
             </div>
