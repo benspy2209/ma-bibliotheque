@@ -45,3 +45,24 @@ export function exportLibraryToJson(books: Book[], fileName: string = 'ma-biblio
     };
   }
 }
+
+/**
+ * Import books from a JSON file
+ * Note: This function is a placeholder, actual implementation would save to Supabase
+ */
+export async function importBooksFromJson(books: Book[]) {
+  try {
+    console.log(`Tentative d'import de ${books.length} livres`);
+    
+    // Here would be the logic to save to Supabase
+    // For now, just return success with the count
+    
+    return { success: true, count: books.length };
+  } catch (error) {
+    console.error('Erreur lors de l\'import de la bibliothèque:', error);
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : 'Erreur inconnue'
+    };
+  }
+}
